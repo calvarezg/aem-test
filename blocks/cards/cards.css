@@ -10,6 +10,13 @@
 .cards > ul > li {
   border: 1px solid #dadada;
   background-color: var(--background-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.cards > ul > li:hover {
+  transform: scale(1.05);
 }
 
 .cards .cards-card-body {
