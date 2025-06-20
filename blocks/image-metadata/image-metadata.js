@@ -6,7 +6,7 @@ export default function decorate(block) {
   const metadata = extractMetadata(block);
   const jsonLd = createJsonLd(metadata);
   appendJsonLdToHead(jsonLd);
-  removeBlock(block);  
+  removeBlock(block);
 }
 
 /**
@@ -22,7 +22,7 @@ function extractMetadata(block) {
     const attributeName = children[0].textContent.trim();
     const attributeValue = getAttributeValue(children[1], attributeName);
 
-    if (attributeValue && attributeValue.trim() !== '') {
+    if (attributeValue) {
       metadata[attributeName] = attributeValue;
     }
   });
@@ -43,6 +43,14 @@ function getAttributeValue(element, attributeName) {
       return url.origin + url.pathname;
     }
     return '';
+  }
+
+  if (attributeName === 'creator' || attributeName === 'copyrightHolder') {
+    const children = [...element.children];
+    return {
+      "@type": children[0].textContent.trim(),
+      "name": children[1].textContent.trim()
+    }
   }
   return element.textContent.trim();
 }
