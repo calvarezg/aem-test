@@ -1,5 +1,3 @@
-
-
 /**
  * Gets the attribute value based on the attribute name and element
  * @param {Element} element The element containing the value
@@ -19,8 +17,8 @@ function getAttributeValue(element, attributeName) {
   if (attributeName === 'creator' || attributeName === 'copyrightHolder') {
     const children = [...element.children];
     return {
-      "@type": children[0].textContent.trim(),
-      "name": children[1].textContent.trim(),
+      '@type': children[0].textContent.trim(),
+      name: children[1].textContent.trim(),
     };
   }
   return element.textContent.trim();
@@ -53,9 +51,9 @@ function extractMetadata(block) {
  */
 function createJsonLd(metadata) {
   return {
-    "@context": "https://schema.org",
-    "@type": "ImageObject",
-    ...metadata
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    ...metadata,
   };
 }
 
