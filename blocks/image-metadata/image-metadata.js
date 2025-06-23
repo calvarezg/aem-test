@@ -1,33 +1,4 @@
-/**
- * Image Metadata Block
- * @param {Element} block The block element
- */
-export default function decorate(block) {
-  const metadata = extractMetadata(block);
-  const jsonLd = createJsonLd(metadata);
-  appendJsonLdToHead(jsonLd);
-  removeBlock(block);
-}
 
-/**
- * Extracts metadata from block children
- * @param {Element} block The block element
- * @returns {Object} The extracted metadata object
- */
-function extractMetadata(block) {
-  const metadata = {};
-
-  [...block.children].forEach((child) => {
-    const children = [...child.children];
-    const attributeName = children[0].textContent.trim();
-    const attributeValue = getAttributeValue(children[1], attributeName);
-
-    if (attributeValue) {
-      metadata[attributeName] = attributeValue;
-    }
-  });
-  return metadata;
-}
 
 /**
  * Gets the attribute value based on the attribute name and element
@@ -49,10 +20,30 @@ function getAttributeValue(element, attributeName) {
     const children = [...element.children];
     return {
       "@type": children[0].textContent.trim(),
-      "name": children[1].textContent.trim()
-    }
+      "name": children[1].textContent.trim(),
+    };
   }
   return element.textContent.trim();
+}
+
+/**
+ * Extracts metadata from block children
+ * @param {Element} block The block element
+ * @returns {Object} The extracted metadata object
+ */
+function extractMetadata(block) {
+  const metadata = {};
+
+  [...block.children].forEach((child) => {
+    const children = [...child.children];
+    const attributeName = children[0].textContent.trim();
+    const attributeValue = getAttributeValue(children[1], attributeName);
+
+    if (attributeValue) {
+      metadata[attributeName] = attributeValue;
+    }
+  });
+  return metadata;
 }
 
 /**
@@ -86,4 +77,15 @@ function appendJsonLdToHead(jsonLd) {
 function removeBlock(block) {
   const twoUp = block.parentElement.parentElement;
   twoUp.remove();
+}
+
+/**
+ * Image Metadata Block
+ * @param {Element} block The block element
+ */
+export default function decorate(block) {
+  const metadata = extractMetadata(block);
+  const jsonLd = createJsonLd(metadata);
+  appendJsonLdToHead(jsonLd);
+  removeBlock(block);
 }
